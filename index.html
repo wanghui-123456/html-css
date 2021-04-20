@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navigate {
+            margin:0;
+            padding: 0;
+            height: 50px;
+            background-color: rgb(81, 89, 207);
+            color: white;
+            font-size: 20px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            line-height: 50px;
+        }
+        .container {
+            position: relative;
+        }
+
+        .left-side {
+            float: left;
+            width: 900px;
+        }
+        .right-side {
+            float: right;
+            width: 400px;
+        }
+        .left-side,
+        .right-side {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgb(218, 218, 218);
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+        .search-box {
+            position: relative;
+            height: 150px;
+            width: 100%;
+        }
+        .search {
+            position: absolute;
+            left:46px;
+            width: 800px;
+            height: 60px;
+            outline: none;
+            border:1px solid skyblue;
+            border-radius: 10px;
+            margin:8px 0;
+            font-size: 18px;
+            padding-left: 8px;
+        }
+        .search-btn {
+            position: absolute;
+            right:48px;
+            bottom: 15px;
+            width: 178px;
+            height: 40px;
+            outline: none;
+            background-color: rgb(28, 107, 180);
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 10px;
+            border:none;
+        }
+        .card {
+            width: 280px;
+            height: 400px;
+            box-shadow: 0 0 20px rgb(218, 218, 218);
+            border-radius: 10px;
+            background-color: rgb(191, 231, 243);
+            margin:10px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigate">|跨语言知识库系统 </div>
+    <div class="container">
+        <div class="left-side">
+            <div class="search-box">
+                <input type="text" class="search" placeholder="欧洲" >
+                <button class="search-btn">搜索</button>
+            </div>
+            <div class="card">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </div>
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+        </div>
+        <div class="right-side">
+
+        </div>
+    </div>
+</body>
+</html>
