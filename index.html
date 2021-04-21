@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,17 @@
     <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <!--引入axios请求后台组件-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <title>跨语言知识库系统-功能页</title>
+    <title>跨语言知识库系统-首页</title>
     <style>
-        .w {
-            width: 1200px;
-            margin:0 auto;
+        html, body {
+            height: 100%;
         }
+        #app {
+            width: 1200px;
+            margin: 0 auto;
+            height: 85%;
+        }
+
         .navigate {
             padding: 0;
             height: 50px;
@@ -22,49 +28,50 @@
             font-size: 20px;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             line-height: 50px;
+            border-radius: 4px;
         }
+
         .container {
             position: relative;
+            height: 100%;
         }
 
         .left-side {
-            float: left;
-            width: 800px;
-        }
-        .right-side {
-            float: right;
-            width: 367px;
-        }
-        .left-side,
-        .right-side {
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
+            align-content: flex-start;
             margin-top: 20px;
             box-shadow: 0 0 20px rgb(218, 218, 218);
             border-radius: 10px;
             word-wrap: break-word;
+            height: 100%;
+            border: 1px solid skyblue;
+            margin-bottom: 10px;
         }
+
         .search-box {
             position: relative;
             height: 150px;
             width: 100%;
         }
+
         .search {
             position: absolute;
-            left:46px;
+            left: 46px;
             width: 694px;
             height: 60px;
             outline: none;
-            border:1px solid skyblue;
+            border: 1px solid skyblue;
             border-radius: 10px;
-            margin:8px 0;
+            margin: 8px 0;
             font-size: 18px;
             padding-left: 8px;
         }
+
         .search-btn {
             position: absolute;
-            right:48px;
+            right: 48px;
             bottom: 15px;
             width: 178px;
             height: 40px;
@@ -74,225 +81,38 @@
             text-align: center;
             font-size: 16px;
             border-radius: 10px;
-            border:none;
+            border: none;
         }
+
         .card {
-            width: 208px;
-            height: 320px;
+            width: 223px;
+            height: 158px;
             box-shadow: 0 0 20px rgb(218, 218, 218);
             border-radius: 10px;
-            margin:10px 8px;
+            margin: 10px 8px;
             padding: 20px;
-            text-overflow:ellipsis; 
-            overflow:hidden;
-        }
-        .card>.card-title {
-            font-size: 18px;
-            font-weight: 530;
-            float: left;
-            color:#1890ff;
-        }
-        .card>.card-symbol {
-            font-size: 10px;
-        }
-        .card>.card-symbol>.first {
-            width: 20px;
-            color: red;
-            border: 1px  solid red;
-            border-radius: 3px;
-        }
-        .card>.card-symbol>.second {
-            color: green;
-            border: 1px solid green;
-            border-radius: 3px;
-        }
-        .card>.card-symbol>.third {
-            color: blue;
-            border: 1px solid blue;
-            border-radius: 3px;
-        }
-
-        .card>.card-content {
-            margin-top: 20px;
-            line-height: 1.5em;
-            text-indent: 2em;
-            font-size: 15px;
-        }
-
-        /*右侧数据的详细信息*/
-        .detail {
-            margin: 20px;
-            line-height: 25px;
-            font-size: 15px;
-        }
-        .detail>.detail-banner {
-            font-size: 23px;
-            color: #1E90FF;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .detail>.detail-title {
-            font-size: 23px;
-        }
-        .detail>.detail-description {
-            text-indent: 2em;
-            margin-top: 10px;
-        }
-        .detail>.property_box {
-            width: 210px;
-            float:right;
-            line-height: 25px;
-        }
-
-        .property_box .property_name {
-            float: left;
-            width: 10%;
-        }
-        .property_box .property_value {
-            float: left;
-            width: 80%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     </style>
 </head>
+
 <body>
     <div id="app">
-    <div class="navigate w"> | 跨语言知识库系统 </div>
-    <div class="container w">
-        <div class="left-side">
-            <div class="search-box">
-                <input type="text" class="search" v-model="keyword" placeholder="搜索关键字" >
-                <button class="search-btn" v-on:click="search">搜索</button>
-            </div>
-                <div class="card"  v-for="item in cards" :key="item.Label">
-                    <div class="card-title">
-                        {{item.Label}}
-                    </div>
-                    <div class="card-symbol">
-                        <span class="first" v-if="item.isBaidu" v-on:click="showDetail('BD', item.SameAs)">BD | </span> 
-                        <span class="second" v-if="item.isEnglish" v-on:click="showDetail('English', item.SameAs)">EN | </span>
-                        <span class="third" v-if="item.isChinese" v-on:click="showDetail('Chinese', item.SameAs)">CN</span>
-                    </div>
-                    <div></div>
-                    <div class="card-content">
-                        {{item.Abstracts}}
-                    </div>
+        <div class="navigate"> | 跨语言知识库系统 </div>
+        <div class="container">
+            <div class="left-side ">
+                <div class="search-box">
+                    <input type="text" class="search" placeholder="搜索关键字">
+                    <button class="search-btn">搜索</button>
                 </div>
+                <div class="card"> </div>
+                <div class="card"> </div>
+                <div class="card"> </div>
+                <div class="card"> </div>
+            </div>
         </div>
-        <div class="right-side">
-            <div class="detail">
-                <div class="detail-banner">{{detail.name}}</div>
-                <div class="detail-title">简介</div>
-                <div class="detail-description" v-html="detail.description">
-                    {{detail.description}}
-                </div>
-                <div class="property_box">
-                    <div v-for="item in detail.properties" :key="item.property_key">
-                        <div class="property_name">{{item.property_key}}</div>
-                        <div class="property_value">{{item.property_value}}</div>
-                    </div>
-                </div>
-            </div>
-</div>
-    </div>  
     </div>
 </body>
-<script>
-    // axios.defaults.withCredentials=true
-    axios.defaults.crossDomain=true
-    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-    new Vue({
-        el: '#app',
-        data: {
-            keyword: "",
-            cards: [],
-            detail: {
-                name:"",
-                description:'',
-                properties:[]
-            }
-        },
-        methods: {
-            search: function (event) {
-                if(this.keyword !== '') {
-                    //关键词非空，查询接口
-                    axios.get(`https://api.xlore.org/query?word=${this.keyword}`)
-                    .then(res => {
-                        // 接口数据
-                        let data = res.data;
-                        const instances = data.Instances;
-
-                        this.cards = instances;
-
-                        for (let index = 0; index < instances.length; index++) {
-                            const element = instances[index];
-
-                            //其他语言
-                            var sameAs = element.SameAs;
-                            for(let j = 0; j < sameAs.length; j++) {
-                                let value = sameAs[j];
-                                if(value.Label == "English") {
-                                    element.isEnglish = true;
-                                } else if(value.Label == "BD") {
-                                    element.isBaidu = true;
-                                } else if(value.Label == "Chinese") {
-                                    element.isChinese = true;
-                                }
-                            }
-                        }
-
-                    })
-                }
-            },
-            showDetail(label, sameAs) {
-                let url = ""
-                
-                for(var index = 0; index < sameAs.length; index++) {
-                    let data = sameAs[index];
-                    if(data.Label == label) {
-                        url = data.Uri
-                    }
-                }
-
-                axios.get(`https://api.xlore.org/query?uri=${url}`)
-                .then(res => {
-                    // 接口数据
-                    let data = res.data;
-
-                    this.detail.name = data.label.label
-
-                    //解析出内详情，包括概述和属性
-                    let abstracts = data.abstracts;
-                    for(let i in abstracts) {
-                        this.detail.description = abstracts[i];
-                    }
-
-                    propertiesList = [];
-
-                    let properties = data.properties;
-                    for(let key in properties) {
-                        let property = properties[key];
-                        let property_key = property.label.label;
-                        let property_value = property.value;
-
-                        let valueStr = "";
-                        for(let i = 0; i < property_value.length; i++) {
-                            valueStr += " " + property_value[i];
-                        }
-
-                        propertiesList.push({
-                            property_key : property_key,
-                            property_value : valueStr
-                        });
-                    }
-
-                    this.detail.properties = propertiesList
-                })                
-            }
-        },
-        //初始化函数
-        created: function () {
-        }
-    })
-</script>  
 </html>
