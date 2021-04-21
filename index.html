@@ -138,7 +138,33 @@
             float:right;
             line-height: 25px;
         }
+
+        .property_box .property_name {
+            float: left;
+            width: 30%;
+        }
+        .property_box .property_value {
+            float: left;
+            width: 65%;
+        }
     </style>
+    <script type="text/javascript">
+
+        var request = new XMLHttpRequest();
+
+        request.open('GET', 'http://api.xlore.org/query?word=清华');
+
+        request.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                console.log('Status:', this.status);
+                console.log('Headers:', this.getAllResponseHeaders());
+                console.log('Body:', this.responseText);
+            }
+        };
+
+        request.send();
+
+    </script>
 </head>
 <body>
     <div class="navigate w"> | GTCOM跨语言知识库系统 </div>
@@ -197,10 +223,18 @@
 其在2018年被评为全球Alpha级城，是大型国际活动和展览的常驻地，如米兰时装周和米兰国际家具展、米兰国际电影节。曾是西罗马帝国、米兰公国和伦巴第-威尼西亚王国的首都，曾分别在1905年和2015年举办了世界博览会，拥有大量文化艺术机构，每年通过博物馆和艺术画廊吸引约800万名海外游客观光旅游
                 </div>
                 <div class="property_box">
-                    <div>中文名称 米兰</div>
-                    <div>所属地区 意大利巴伦地区</div>
-                    <div>地理位置 意大利的西北方</div>
-                    <div>人口 113.1万</div>
+                    <div>
+                        <div class="property_name">中文名称</div>
+                        <div class="property_value">米兰</div>
+                    </div>
+                    <div>
+                        <div class="property_name">所属地区</div>
+                        <div class="property_value">意大利巴伦帝地区、南欧地区</div>
+                    </div>
+                    <div>
+                        <div class="property_name">地理位置</div>
+                        <div class="property_value">意大利的西北部</div>
+                    </div>
                 </div>
             </div>
 </div>
