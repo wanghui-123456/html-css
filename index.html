@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--引入vue框架-->
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <!--引入axios请求后台组件-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>跨语言知识库系统-功能页</title>
     <style>
         .w {
@@ -83,9 +87,10 @@
             overflow:hidden;
         }
         .card>.card-title {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 530;
             float: left;
+            color:#1890ff;
         }
         .card>.card-symbol {
             font-size: 10px;
@@ -111,7 +116,7 @@
             margin-top: 20px;
             line-height: 1.5em;
             text-indent: 2em;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         /*右侧数据的详细信息*/
@@ -141,104 +146,153 @@
 
         .property_box .property_name {
             float: left;
-            width: 30%;
+            width: 10%;
         }
         .property_box .property_value {
             float: left;
-            width: 65%;
+            width: 80%;
         }
     </style>
-    <script type="text/javascript">
-
-        var request = new XMLHttpRequest();
-        var url = "https://api.xlore.org/query?searchTmp=F-15";
-
-        request.open('GET', url);
-
-        request.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                console.log('Status:', this.status);
-                console.log('Headers:', this.getAllResponseHeaders());
-                console.log('Body:', this.responseText);
-            }
-        };
-
-        request.send();
-
-    </script>
 </head>
 <body>
-    <div class="navigate w"> | GTCOM跨语言知识库系统 </div>
+    <div id="app">
+    <div class="navigate w"> | 跨语言知识库系统 </div>
     <div class="container w">
         <div class="left-side">
             <div class="search-box">
-                <input type="text" class="search" placeholder="搜索关键字" >
-                <button class="search-btn">搜索</button>
+                <input type="text" class="search" v-model="keyword" placeholder="搜索关键字" >
+                <button class="search-btn" v-on:click="search">搜索</button>
             </div>
-            <div class="card">
-                <div class="card-title">
-                    文艺复兴
+                <div class="card"  v-for="item in cards" :key="item.Label">
+                    <div class="card-title">
+                        {{item.Label}}
+                    </div>
+                    <div class="card-symbol">
+                        <span class="first" v-if="item.isBaidu" v-on:click="showDetail('BD', item.SameAs)">BD | </span> 
+                        <span class="second" v-if="item.isEnglish" v-on:click="showDetail('English', item.SameAs)">EN | </span>
+                        <span class="third" v-if="item.isChinese" v-on:click="showDetail('Chinese', item.SameAs)">CN</span>
+                    </div>
+                    <div></div>
+                    <div class="card-content">
+                        {{item.Abstracts}}
+                    </div>
                 </div>
-                <div class="card-symbol">
-                    <span class="first">BD</span> | <span class="second">EN</span> |<span class="third">CN</span>
-                </div>
-                <div></div>
-                <div class="card-content">
-                    文艺复兴是一场大致发生在14世纪至17世纪欧洲的文化运动，在中世纪晚期发源于意大利中部的佛罗伦萨、威尼斯等意大利城市，即意大利文艺复兴，后扩展至欧洲各国。其辭源為義大利語「Rinascimento」。“文艺复兴”一词的意大利语源由ri-（意為“重新”）和nascere（意為“出生”）构成[1]。           
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">
-                    意大利语
-                </div>
-                <div class="card-symbol">
-                    <span class="first">BD</span> | <span class="second">EN</span> |<span class="third">CN</span>
-                </div>
-                <div></div>
-                <div class="card-content">
-                    意大利语（Italiano），中文也简称为意语，隸屬於印欧语系的羅曼語族。现有7千万人日常用意大利语，大多是意大利居民。另有28个国家使用意大利语，其中4个立它为官方语言。标准意大利语源自於托斯卡納語中的佛羅倫斯方言，发音处于意大利中北部方言之间。标准音近来稍微加进了经济较为发达的米兰地区口音。
-                </div>
-            </div>    
-            <div class="card">
-                <div class="card-title">
-                    中世纪
-                </div>
-                <div class="card-symbol">
-                    <span class="first">BD</span> | <span class="second">EN</span> |<span class="third">CN</span>
-                </div>
-                <div></div>
-                <div class="card-content">
-                    中世纪（Middle Ages），指从公元5世纪后期到公元15世纪中期，是欧洲历史三大传统划分（古典时代、中世纪、近现代）的一个中间时期。始于公元476年西罗马帝国的灭亡，终于公元1453年东罗马帝国的灭亡，最终融入文艺复兴运动和大航海时代（地理大发现）中。中世纪历史自身也分为前、中、后期三个阶段。        
-                </div>
-            </div>                    
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
         </div>
         <div class="right-side">
             <div class="detail">
-                <div class="detail-banner">米兰(Milan)</div>
+                <div class="detail-banner">{{detail.name}}</div>
                 <div class="detail-title">简介</div>
-                <div class="detail-description">
-            米兰（古罗马称为：Mediolanium，意大利语：Milano，英语：Milan）是世界时尚艺术中心，世界历史文化名城，欧洲四大经济中心之一。米兰是几乎世界半数奢侈品牌的诞生地，是Armani（阿玛尼）、Versace（范思哲）、Fendi（芬迪）、Prada（普拉达）、Valentino（华伦天奴）、Dolce & Gabbana（杜嘉班纳）、Moschino（莫斯奇诺）、Mediolanium（米兰）等意大利时尚品牌的总部。米兰的腹地是意大利最大的工业区。据2017年数据，米兰人均GDP约为49,500欧元（55,600美元），其人口数量在意大利仅次于罗马，位于意大利北部-伦巴第平原上（伦巴第大区和米兰广域市首府），城市常住人口约147万， [1]  面积约181平方千米。 [2] 
-其在2018年被评为全球Alpha级城，是大型国际活动和展览的常驻地，如米兰时装周和米兰国际家具展、米兰国际电影节。曾是西罗马帝国、米兰公国和伦巴第-威尼西亚王国的首都，曾分别在1905年和2015年举办了世界博览会，拥有大量文化艺术机构，每年通过博物馆和艺术画廊吸引约800万名海外游客观光旅游
+                <div class="detail-description" v-html="detail.description">
+                    {{detail.description}}
                 </div>
                 <div class="property_box">
-                    <div>
-                        <div class="property_name">中文名称</div>
-                        <div class="property_value">米兰</div>
-                    </div>
-                    <div>
-                        <div class="property_name">所属地区</div>
-                        <div class="property_value">意大利巴伦帝地区、南欧地区</div>
-                    </div>
-                    <div>
-                        <div class="property_name">地理位置</div>
-                        <div class="property_value">意大利的西北部</div>
+                    <div v-for="item in detail.properties" :key="item.property_key">
+                        <div class="property_name">{{item.property_key}}</div>
+                        <div class="property_value">{{item.property_value}}</div>
                     </div>
                 </div>
             </div>
 </div>
+    </div>  
     </div>
 </body>
+<script>
+    // axios.defaults.withCredentials=true
+    axios.defaults.crossDomain=true
+    axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
+    new Vue({
+        el: '#app',
+        data: {
+            keyword: "",
+            cards: [],
+            detail: {
+                name:"",
+                description:'',
+                properties:[]
+            }
+        },
+        methods: {
+            search: function (event) {
+                if(this.keyword !== '') {
+                    //关键词非空，查询接口
+                    axios.get(`https://api.xlore.org/query?word=${this.keyword}`)
+                    .then(res => {
+                        // 接口数据
+                        let data = res.data;
+                        const instances = data.Instances;
+
+                        this.cards = instances;
+
+                        for (let index = 0; index < instances.length; index++) {
+                            const element = instances[index];
+
+                            //其他语言
+                            var sameAs = element.SameAs;
+                            for(let j = 0; j < sameAs.length; j++) {
+                                let value = sameAs[j];
+                                if(value.Label == "English") {
+                                    element.isEnglish = true;
+                                } else if(value.Label == "BD") {
+                                    element.isBaidu = true;
+                                } else if(value.Label == "Chinese") {
+                                    element.isChinese = true;
+                                }
+                            }
+                        }
+
+                    })
+                }
+            },
+            showDetail(label, sameAs) {
+                let url = ""
+                
+                for(var index = 0; index < sameAs.length; index++) {
+                    let data = sameAs[index];
+                    if(data.Label == label) {
+                        url = data.Uri
+                    }
+                }
+
+                axios.get(`https://api.xlore.org/query?uri=${url}`)
+                .then(res => {
+                    // 接口数据
+                    let data = res.data;
+
+                    this.detail.name = data.label.label
+
+                    //解析出内详情，包括概述和属性
+                    let abstracts = data.abstracts;
+                    for(let i in abstracts) {
+                        this.detail.description = abstracts[i];
+                    }
+
+                    propertiesList = [];
+
+                    let properties = data.properties;
+                    for(let key in properties) {
+                        let property = properties[key];
+                        let property_key = property.label.label;
+                        let property_value = property.value;
+
+                        let valueStr = "";
+                        for(let i = 0; i < property_value.length; i++) {
+                            valueStr += " " + property_value[i];
+                        }
+
+                        propertiesList.push({
+                            property_key : property_key,
+                            property_value : valueStr
+                        });
+                    }
+
+                    this.detail.properties = propertiesList
+                })                
+            }
+        },
+        //初始化函数
+        created: function () {
+        }
+    })
+</script>  
 </html>
