@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跨语言知识库系统</title>
+    <!--引入vue框架-->
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <!--引入axios请求后台组件-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>跨语言知识库系统-首页</title>
     <style>
+        html, body {
+            height: 100%;
+        }
+        #app {
+            width: 1200px;
+            margin: 0 auto;
+            height: 85%;
+        }
+
         .navigate {
-            margin:0;
             padding: 0;
             height: 50px;
             background-color: rgb(81, 89, 207);
@@ -15,49 +28,50 @@
             font-size: 20px;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             line-height: 50px;
+            border-radius: 4px;
         }
+
         .container {
             position: relative;
+            height: 100%;
         }
 
         .left-side {
-            float: left;
-            width: 900px;
-        }
-        .right-side {
-            float: right;
-            width: 400px;
-        }
-        .left-side,
-        .right-side {
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
+            align-content: flex-start;
             margin-top: 20px;
             box-shadow: 0 0 20px rgb(218, 218, 218);
             border-radius: 10px;
             word-wrap: break-word;
+            height: 100%;
+            border: 1px solid skyblue;
+            margin-bottom: 10px;
         }
+
         .search-box {
             position: relative;
             height: 150px;
             width: 100%;
         }
+
         .search {
             position: absolute;
-            left:46px;
-            width: 800px;
+            left: 46px;
+            width: 694px;
             height: 60px;
             outline: none;
-            border:1px solid skyblue;
+            border: 1px solid skyblue;
             border-radius: 10px;
-            margin:8px 0;
+            margin: 8px 0;
             font-size: 18px;
             padding-left: 8px;
         }
+
         .search-btn {
             position: absolute;
-            right:48px;
+            right: 48px;
             bottom: 15px;
             width: 178px;
             height: 40px;
@@ -67,35 +81,81 @@
             text-align: center;
             font-size: 16px;
             border-radius: 10px;
-            border:none;
+            border: none;
+            cursor:pointer; 
         }
+
         .card {
-            width: 280px;
-            height: 400px;
+            width: 223px;
+            height: 158px;
             box-shadow: 0 0 20px rgb(218, 218, 218);
             border-radius: 10px;
-            background-color: rgb(191, 231, 243);
-            margin:10px 8px;
+            margin: 100px 8px;
+            padding: 20px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .card > .card-title {
+            height: 50px;
+            font-size: 20px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .card > .card-content {
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 540;
         }
     </style>
 </head>
 <body>
-    <div class="navigate">|跨语言知识库系统 </div>
-    <div class="container">
-        <div class="left-side">
-            <div class="search-box">
-                <input type="text" class="search" placeholder="欧洲" >
-                <button class="search-btn">搜索</button>
+    <div id="app">
+        <div class="navigate"> | 跨语言知识库系统 </div>
+        <div class="container">
+            <div class="left-side ">
+                <div class="search-box">
+                    <input type="text" class="search" v-model="keyword" placeholder="搜索关键字">
+                    <button class="search-btn" v-on:click="search">搜索</button>
+                </div>
+                <div class="card">
+                    <div class="card-title">百度百科数量总数</div>
+                    <div class="card-content">21,660,133</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">英文百科数量总数</div>
+                    <div class="card-content">6,193,320</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">中文百科数量总数</div>
+                    <div class="card-content">1,158,311</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">百度维基对齐数量数</div>
+                    <div class="card-content">980,289</div>                
+                </div>
             </div>
-            <div class="card">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            </div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-        </div>
-        <div class="right-side">
-
         </div>
     </div>
 </body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            keyword: ""
+        },
+        methods: {
+            search: function (event) {
+                if(this.keyword !== '') {
+                    this.keyword = escape(this.keyword)
+                    window.location.href = `./search.html?keyword=${this.keyword}`
+                }
+            }
+        },
+        //初始化函数
+        created: function () {
+        }
+    })
+</script>  
 </html>
